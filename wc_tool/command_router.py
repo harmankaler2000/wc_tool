@@ -52,17 +52,15 @@ class WordCount:
                 word_count += len(line.split())
         return word_count
 
-    # @staticmethod
-    # def calculate_characters(file_name):
-    #     """
-    #     Function to calculate the word count of a file
-    #     """
-    #     character_count = 0
-    #     # makes use of a generator and is faster than readlines
-    #     with open(file_name, 'r', encoding='utf-8') as file:
-    #         for line in file:
-    #             character_count += len(line)
-    #     return character_count
+    @staticmethod
+    def calculate_characters(file_name):
+        """
+        Function to calculate the word count of a file
+        """
+        # The newline='' argument prevents Python from modifying line endings,
+        # preserving the raw character count.
+        with open(file_name, "r", encoding="utf-8", newline='') as file:
+            return sum(len(line) for line in file)
 
     def route_command(self):
         """
@@ -83,8 +81,13 @@ class WordCount:
             no_words = self.calculate_words(self.args.filename)
             return str(no_words) + "    " + self.args.filename
 
-        # if self.args.characters:
-        #     no_words = self.calculate_characters(self.args.filename)
-        #     return str(no_words) + "    " + self.args.filename
+        if self.args.characters:
+            no_words = self.calculate_characters(self.args.filename)
+            return str(no_words) + "    " + self.args.filename
 
-        return 'No command specified'
+        # if no option is provided, return the output for -c, -l, -w
+        byte_data = self.calculate_bytes(self.args.filename)
+        no_lines = self.calculate_lines(self.args.filename)
+        no_words = self.calculate_words(self.args.filename)
+        return str(no_lines) + "    " + str(no_words) + "    " \
+            + str(byte_data) + "    " + self.args.filename
