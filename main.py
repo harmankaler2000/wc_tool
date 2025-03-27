@@ -4,7 +4,7 @@ Owner: Harmandeep Kaur Kaler
 Created On: 25th March 2025
 """
 import argparse
-from wc_tool import command_router
+from command_routing import command_router
 
 def main():
     """
